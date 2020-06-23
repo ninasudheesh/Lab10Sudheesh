@@ -1,3 +1,12 @@
+/*
+Project: Lab 10
+Purpose Details: Pizza ordering application
+Course: IST 242
+Author: Nina Sudheesh
+Date Developed: 6/11/2020
+Last Date Changed: 6/22/2020
+Revision: 3
+ */
 package edu.psu.ist;
 
 import java.util.ArrayList;

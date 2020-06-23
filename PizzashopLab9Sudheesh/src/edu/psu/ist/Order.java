@@ -1,3 +1,12 @@
+/*
+Project: Lab 10
+Purpose Details: Pizza ordering application
+Course: IST 242
+Author: Nina Sudheesh
+Date Developed: 6/11/2020
+Last Date Changed: 6/22/2020
+Revision: 3
+ */
 package edu.psu.ist;
 
 import java.util.ArrayList;
@@ -91,10 +100,61 @@ public class Order {
         return id;
     }
 
+    //Added a Method check if menu item Id is Valid
+    public static boolean isValidMenuItem(int id,ArrayList<Menu> mList){
+        for(Menu menus:mList){
+            if(id == menus.getmenuId()){
+                return true;
+            }
+        }
+        return false;
+    }
+    //Added a Method to get a Valid menu item
+    public static int getValidMenuItem(ArrayList<Menu> mList){
+        System.out.println("Select your Menu Options by their Menu Id then enter 0 to quit");
+        Scanner sc = new Scanner(System.in);
+        int menuid = sc.nextInt();
+        if (menuid == 0){
+            return 0;
+        }
+        //Call method to check if menu item is valid
+        boolean valid  = isValidMenuItem(menuid,mList);
+        //Loop through check if not valid
+        do{
+            if(!valid){
+                //If its false loop through till get Valid id
+                System.out.println("Invalid Pizza Menu Item ID");
+                System.out.println("Enter Valid Menu Item Id: ");
+                menuid = sc.nextInt();
+                valid = isValidMenuItem(menuid,mList);
+            }
+            else{
+                System.out.println("Valid Menu Item ID");
+            }
+
+        }while(!valid);
+        return menuid;
+    }
+    //Added a method to get valid Quantity/Quantities of Pizza Menu Items.
+    public static int getValidQuantity(){
+        Scanner sc = new Scanner(System.in);
+        int quantity;
+        do{
+            System.out.println("Enter the quantity of your selected pizza");
+            quantity = sc.nextInt();
+            if (quantity >= 0){
+                return quantity;
+            }
+            else{
+                System.out.println("Invalid Quantity of Pizza(s)");
+            }
+        }while(quantity < 0);
+        return quantity;
+    }
 
     public static Order addOrder(ArrayList<Menu> mList, ArrayList<Customer> cList,int orderCount) {
         Scanner sc = new Scanner(System.in);
-        //Called getvalid id
+        //Called getValid id
         int customerid = getValidCustomer(cList);
         //Called getCustomer
         Customer cust = getCustomers(customerid,cList);
@@ -106,13 +166,12 @@ public class Order {
         int menuid;
         int quantity;
         do {
-            System.out.println("Select your Menu Options by their Menu Id then enter 0 to quit");
-            menuid = sc.nextInt();
-
+            //Called method to get a valid menu id
+            menuid = getValidMenuItem(mList);
             if (menuid > 0) {
                 selectedItems.add(mList.get(menuid - 1));
-                System.out.println("Enter the quantity of your selected pizza");
-                quantity = sc.nextInt();
+                //Called Method to get a valid quantity
+                quantity = getValidQuantity();
                 quantities.add(quantity);
             }
         } while (menuid > 0);
